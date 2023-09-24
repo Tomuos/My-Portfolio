@@ -31,6 +31,7 @@ const Galaxy = () => {
     camera.position.z = 5;
 
     const animate = () => {
+      console.log('animate');
       requestAnimationFrame(animate);
       points.rotation.x += 0.005;
       points.rotation.y += 0.005;
