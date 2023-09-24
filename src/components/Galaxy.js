@@ -6,6 +6,7 @@ const Galaxy = () => {
 
   useEffect(() => {
     const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1A0064); // Setting the background to navy
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -14,27 +15,35 @@ const Galaxy = () => {
       galaxyRef.current.appendChild(renderer.domElement);
     }
 
-    const geometry = new THREE.BufferGeometry();
+    const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true });
 
+    const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(2000 * 3);
+    const colors = new Float32Array(2000 * 3); // Create an array to store colors
+
     for (let i = 0; i < positions.length; i += 3) {
       positions[i] = (Math.random() - 0.5) * 10;
       positions[i + 1] = (Math.random() - 0.5) * 10;
       positions[i + 2] = (Math.random() - 0.5) * 10;
-    }
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    const material = new THREE.PointsMaterial({ size: 0.1 });
+      const color = new THREE.Color(Math.random(), Math.random(), Math.random()); // Random color
+      colors[i] = color.r;
+      colors[i + 1] = color.g;
+      colors[i + 2] = color.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3)); // Add color attribute
+
     const points = new THREE.Points(geometry, material);
 
     scene.add(points);
     camera.position.z = 5;
 
     const animate = () => {
-      console.log('animate');
       requestAnimationFrame(animate);
-      points.rotation.x += 0.005;
-      points.rotation.y += 0.005;
+      points.rotation.x += 0.001;
+      points.rotation.y += 0.001;
       renderer.render(scene, camera);
     };
 

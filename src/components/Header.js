@@ -1,12 +1,13 @@
 import React from 'react';
 import Galaxy from './Galaxy';
+import '../components/Header.css'
 
 const Header = () => {
   return (
-    <header className="relative">
+    <header className="header-container">
       <Galaxy />
-      <div className="absolute top-0 left-0 text-4xl text-white p-4">
-        My Portfolio
+      <div className="header-text">
+        Hi I'm Tom Welcome to My Portfolio
       </div>
     </header>
   );

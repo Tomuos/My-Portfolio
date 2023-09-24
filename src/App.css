@@ -43,3 +43,16 @@ canvas {
   left: 0;
   z-index: 1;
 }
+.header-container {
+  position: relative;
+}
+
+.header-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
+  color: white;
+  z-index: 2;
+}

@@ -1,0 +1,15 @@
+.header-container {
+    position: relative;
+  }
+  
+  .header-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3em;
+    font-weight: 700;
+    color: white;
+    z-index: 2;
+  }
+  
