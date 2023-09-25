@@ -1,15 +1,51 @@
 /* AboutMe.css */
 .about-me-container {
-    background-color: #160c41;
-    color: white;
-    padding: 20px;
-    margin: auto;
-    font-size: large;
-  }
-  
-  .about-me-container img {
-    max-width: 200px;
-    border-radius: 10px;
-    margin: 20px 0;
-  }
-  
+  position: relative;
+  background-color: #160c41; /* This will act as a fallback color */
+  color: white;
+  padding: 20px;
+  margin: auto;
+  font-size: 1.5rem;
+  font-weight: 700;
+  background-image: url('../../public/images/earth\ wallpaper.png');
+  background-size: cover;  /* cover the entire container */
+  background-position: center; /* center the image */
+}
+
+.about-me-content {
+  width: 80%; /* Set the inner content width to 80% */
+  margin: auto; /* Center the inner content */
+  text-align: center; /* Center the text */
+}
+
+.about-me-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(22, 12, 65, 0.7); /* Adjust color and opacity as needed */
+  z-index: 1;
+}
+
+/* Content should be relative with a higher z-index */
+.about-me-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Existing Flexbox CSS */
+.about-me-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.about-me-container img {
+  max-width: 800px;
+  border-radius: 10px;
+  margin: 20px 0;
+}

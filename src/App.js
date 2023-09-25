@@ -6,11 +6,13 @@ import Projects from './components/Projects';
 import Contact from './components/Contact';
 import StickyMenu from './components/StickyMenu'; // Don't forget to import your new StickyMenu component
 
+
+
 function App() {
   return (
     <div className="App">
-      <Header />
       <StickyMenu /> {/* Add your new StickyMenu component */}
+      <Header />
       <AboutMe />
       <Projects />
       <Contact />
