@@ -1,0 +1,13 @@
+/* AboutMe.css */
+.about-me-container {
+    background-color: #160c41;
+    color: white;
+    padding: 20px;
+  }
+  
+  .about-me-container img {
+    max-width: 200px;
+    border-radius: 10px;
+    margin: 20px 0;
+  }
+  
