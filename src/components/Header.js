@@ -7,7 +7,7 @@ const Header = () => {
     <header className="header-container">
       <Galaxy />
       <div className="header-text">
-        Hi I'm Tom, Welcome to My Portfolio 👋
+        Hi I'm Tom, Welcome to the my under construction👷‍♂️🚧 portfolio 👋
       </div>
     </header>
   );
