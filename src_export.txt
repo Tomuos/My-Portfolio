@@ -1,7 +1,13 @@
 ==== ./src/App.css ====
 .App {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  margin: 0 auto;
 }
+
 
 .App-logo {
   height: 40vmin;
@@ -44,21 +50,36 @@ canvas {
   left: 0;
   z-index: 1;
 }
+.header-container {
+  position: relative;
+}
+
+.header-text {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 3em;
+  color: white;
+  z-index: 2;
+}
 ==== ./src/App.js ====
+// App.js
+
 import React from 'react';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import AboutMe from './components/AboutMe';
 import Projects from './components/Projects';
 import Contact from './components/Contact';
-import Galaxy from './components/Galaxy';
+import Parallax from './components/Parallax';
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Galaxy />
-            <AboutMe />
+      <AboutMe />
+      <Parallax />
       <Projects />
       <Contact />
       <Footer />
@@ -67,9 +88,106 @@ function App() {
 }
 
 export default App;
+==== ./src/components/AboutMe.css ====
+/* AboutMe.css */
+.about-me-container {
+  position: relative;
+  background-color: #160c41; /* This will act as a fallback color */
+  color: white;
+  padding: 20px;
+  margin: auto;
+  font-size: 1.5rem;
+  font-weight: 700;
+  /* background-image: url('../../public/images/earth\ wallpaper.png'); */
+  background-size: cover;  /* cover the entire container */
+  background-position: center; /* center the image */
+}
+
+.about-me-content {
+  width: 80%; /* Set the inner content width to 80% */
+  margin: auto; /* Center the inner content */
+  text-align: center; /* Center the text */
+}
+
+.about-me-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(22, 12, 65, 0.7); /* Adjust color and opacity as needed */
+  z-index: 1;
+}
+
+/* Content should be relative with a higher z-index */
+.about-me-container > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Existing Flexbox CSS */
+.about-me-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.about-me-container img {
+  max-width: 800px;
+  border-radius: 10px;
+  margin: 20px 0;
+}
 ==== ./src/components/AboutMe.js ====
+import React from 'react';
+import './AboutMe.css';  // Import the CSS if you have created AboutMe.css
+
+const AboutMe = () => {
+  return (
+    <div className="about-me-container">
+      <div className="about-me-content">  {/* New inner container */}
+        <h1>About Me</h1>
+        <img src="/images/Tom.jpg" alt="Tom" />
+        <p>Hi, I'm Tom. I'm a Junior full stack software engineer ...</p>
+      </div>
+    </div>
+  );
+};
+
+export default AboutMe;
+
+==== ./src/components/Contact.css ====
 ==== ./src/components/Contact.js ====
+import React from 'react';
+import './Contact.css';
+
+const Contact = () => {
+  return (
+    <div className="contact-container">
+      <h1>Contact Me</h1>
+      <p>You can reach me at: <a href="mailto:email@example.com">email@example.com</a></p>
+    </div>
+  );
+};
+
+export default Contact;
+==== ./src/components/Footer.css ====
 ==== ./src/components/Footer.js ====
+import React from 'react';
+import './Footer.css';
+
+const Footer = () => {
+  return (
+    <div className="footer-container">
+      <p>Copyright © 2023, Tom</p>
+    </div>
+  );
+};
+
+export default Footer;
+==== ./src/components/Galaxy.css ====
 ==== ./src/components/Galaxy.js ====
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
@@ -79,6 +197,7 @@ const Galaxy = () => {
 
   useEffect(() => {
     const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x1A0064); // Setting the background to navy
     const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
     const renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -87,27 +206,35 @@ const Galaxy = () => {
       galaxyRef.current.appendChild(renderer.domElement);
     }
 
-    const geometry = new THREE.BufferGeometry();
+    const material = new THREE.PointsMaterial({ size: 0.02, vertexColors: true });
 
+    const geometry = new THREE.BufferGeometry();
     const positions = new Float32Array(2000 * 3);
+    const colors = new Float32Array(2000 * 3); // Create an array to store colors
+
     for (let i = 0; i < positions.length; i += 3) {
       positions[i] = (Math.random() - 0.5) * 10;
       positions[i + 1] = (Math.random() - 0.5) * 10;
       positions[i + 2] = (Math.random() - 0.5) * 10;
-    }
-    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
 
-    const material = new THREE.PointsMaterial({ size: 0.1 });
+      const color = new THREE.Color(Math.random(), Math.random(), Math.random()); // Random color
+      colors[i] = color.r;
+      colors[i + 1] = color.g;
+      colors[i + 2] = color.b;
+    }
+
+    geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+    geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3)); // Add color attribute
+
     const points = new THREE.Points(geometry, material);
 
     scene.add(points);
     camera.position.z = 5;
 
     const animate = () => {
-      console.log('animate');
       requestAnimationFrame(animate);
-      points.rotation.x += 0.005;
-      points.rotation.y += 0.005;
+      points.rotation.x += 0.001;
+      points.rotation.y += 0.001;
       renderer.render(scene, camera);
     };
 
@@ -117,24 +244,197 @@ const Galaxy = () => {
   return <div ref={galaxyRef} />;
 };
 
-export default Galaxy;
-==== ./src/components/Header.js ====
+export default Galaxy;==== ./src/components/Header.css ====
+.header-container {
+    position: relative;
+  }
+  
+  .header-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3em;
+    font-weight: 700;
+    color: white;
+    z-index: 2;
+  }
+  ==== ./src/components/Header.js ====
 import React from 'react';
 import Galaxy from './Galaxy';
+import '../components/Header.css'
 
 const Header = () => {
   return (
-    <header className="relative">
+    <header className="header-container">
       <Galaxy />
-      <div className="absolute top-0 left-0 text-4xl text-white p-4">
-        My Portfolio
+      <div className="header-text">
+        Hi I'm Tom, Welcome to the my under construction👷‍♂️🚧 portfolio 👋
       </div>
     </header>
   );
 };
 
 export default Header;
+==== ./src/components/Parallax.css ====
+/* Parallax.css */
+.parallax-container {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 0;  /* Make sure to set to 0 */
+}
+
+.layer {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  transform: translateY(0px);  /* Initial state */
+}
+
+/* ... (other layers the same) ... */
+
+.content {
+  position: absolute;
+  z-index: 9;  /* Higher than any other layer */
+  color: #fff;  /* Set to whatever color you want for the text */
+  /* Add more styles for layout and formatting */
+}
+
+  
+  .layer1 {
+    background-image: url('../../public/images/Backgroundspace.png');
+    z-index: 1;
+  }
+  
+  .layer2 {
+    background-image: url('../../public/images/Starburst.png');
+    z-index: 2;
+    background-attachment: fixed;
+  }
+  .layer3 {
+    background-image: url('../../public/images/Starfield1.png');
+    z-index: 3;
+    background-attachment: fixed;
+  }
+  
+  .layer4 {
+    background-image: url('../../public/images/Starfield2.png');
+    z-index: 4;
+  }
+
+  .layer5 {
+    background-image: url('../../public/images/Starfield3.png');
+    z-index: 5;
+  }
+
+  .layer6 {
+    background-image: url('../../public/images/Starfield4.png');
+    z-index: 6;
+  }
+
+  .layer7 {
+    background-image: url('../../public/images/Dogstars.png');
+    z-index: 7;
+  }
+  
+  .layer8 {
+    background-image: url('../../public/images/earth.png');
+    z-index: 8;
+  }
+  ==== ./src/components/Parallax.js ====
+import React, { useEffect } from 'react';
+import './Parallax.css';  // make sure to import the CSS
+
+const Parallax = () => {
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+  const handleScroll = () => {
+    const scrollY = window.scrollY;
+    
+    // Change the '10', '20', etc. to control speed (smaller is slower)
+    document.querySelector('.layer2').style.transform = `translateY(${scrollY / 10}px)`;
+    document.querySelector('.layer3').style.transform = `translateY(${scrollY / 20}px)`;
+    document.querySelector('.layer4').style.transform = `translateY(${scrollY / 30}px)`;
+    document.querySelector('.layer5').style.transform = `translateY(${scrollY / 40}px)`;
+    document.querySelector('.layer6').style.transform = `translateY(${scrollY / 50}px)`;
+    document.querySelector('.layer7').style.transform = `translateY(${scrollY / 60}px)`;
+    document.querySelector('.layer8').style.transform = `translateY(${scrollY / 70}px)`;
+  };
+
+  return (
+    <div className="parallax-container">
+      <div className="layer layer1"></div>
+      <div className="layer layer2"></div>
+      <div className="layer layer3"></div>
+      <div className="layer layer4"></div>
+      <div className="layer layer5"></div>
+      <div className="layer layer6"></div>
+      <div className="layer layer7"></div>
+      <div className="layer layer8"></div>
+      {/* You can put your content here */}
+      <div className="content">
+        <h1>Your Text Here</h1>
+      </div>
+    </div>
+  );
+};
+
+export default Parallax;
 ==== ./src/components/Projects.js ====
+import React from 'react';
+
+const Projects = () => {
+  return (
+    <div>
+      <h1>Projects</h1>
+      <p>This is the Projects section.</p>
+    </div>
+  );
+};
+
+export default Projects;
+==== ./src/components/StickyMenu.css ====
+.sticky-menu {
+    position: sticky;
+    top: 0;
+    background-color: #160c41;
+    color: white;
+    font-size: 2rem;
+    padding: 10px;
+    z-index: 100; /* Ensures the menu stays above other elements */
+  }
+  
+  .sticky-menu a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: white;
+  }
+  ==== ./src/components/StickyMenu.js ====
+import React from 'react';
+import './StickyMenu.css';
+
+const StickyMenu = () => {
+  return (
+    <div className="sticky-menu">
+      <a href="#home">Home</a>
+      <a href="#about-me">About Me</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  );
+};
+
+export default StickyMenu;
 ==== ./src/index.css ====
 body {
   margin: 0;
@@ -151,16 +451,16 @@ code {
 }
 ==== ./src/index.js ====
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+  
     <App />
-  </React.StrictMode>
+ 
 );
 
 
