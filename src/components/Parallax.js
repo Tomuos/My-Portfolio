@@ -24,6 +24,16 @@ const Parallax = () => {
     document.querySelector('.layer8').style.transform = `translateY(${scrollY / 70}px)`;
   };
 
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
+
+
   return (
     <div className="parallax-container">
       <div className="layer layer1"></div>
