@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import './Parallax.css';  // make sure to import the CSS
+import './Parallax.css'; // make sure to import the CSS
 
 const Parallax = () => {
-
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
 
@@ -13,26 +12,17 @@ const Parallax = () => {
 
   const handleScroll = () => {
     const scrollY = window.scrollY;
-    
-    // Change the '10', '20', etc. to control speed (smaller is slower)
-    document.querySelector('.layer2').style.transform = `translateY(${scrollY / 10}px)`;
-    document.querySelector('.layer3').style.transform = `translateY(${scrollY / 20}px)`;
-    document.querySelector('.layer4').style.transform = `translateY(${scrollY / 30}px)`;
-    document.querySelector('.layer5').style.transform = `translateY(${scrollY / 40}px)`;
-    document.querySelector('.layer6').style.transform = `translateY(${scrollY / 50}px)`;
-    document.querySelector('.layer7').style.transform = `translateY(${scrollY / 60}px)`;
-    document.querySelector('.layer8').style.transform = `translateY(${scrollY / 70}px)`;
+
+    window.requestAnimationFrame(() => {
+      document.querySelector('.layer2').style.transform = `translateY(${scrollY / 5}px)`;
+      document.querySelector('.layer3').style.transform = `translateY(${scrollY / 10}px)`;
+      document.querySelector('.layer4').style.transform = `translateY(${scrollY / 15}px)`;
+      document.querySelector('.layer5').style.transform = `translateY(${scrollY / 20}px)`;
+      document.querySelector('.layer6').style.transform = `translateY(${scrollY / 25}px)`;
+      document.querySelector('.layer7').style.transform = `translateY(${scrollY / 30}px)`;
+      document.querySelector('.layer8').style.transform = `translateY(${scrollY / 35}px)`;
+    });
   };
-
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-    };
-  }, []);
-
 
   return (
     <div className="parallax-container">
@@ -44,12 +34,13 @@ const Parallax = () => {
       <div className="layer layer6"></div>
       <div className="layer layer7"></div>
       <div className="layer layer8"></div>
-      {/* You can put your content here */}
       <div className="content">
-        <h1>Your Text Here</h1>
+        <h1>Hi My name is Tom </h1>
+        <img src=''></img>
       </div>
+      <div className="empty-space"></div>  {/* Here's the new empty space */}
     </div>
   );
-};
 
+  }
 export default Parallax;

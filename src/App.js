@@ -15,8 +15,8 @@ function App() {
     <div className="App">
     <StickyMenu />
       <Header />
-      <AboutMe />
       <Parallax />
+      <AboutMe />
       <Projects />
       <Contact />
       <Footer />

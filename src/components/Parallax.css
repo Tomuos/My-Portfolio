@@ -1,15 +1,16 @@
 /* Parallax.css */
 .parallax-container {
   position: relative;
-  height: 100vh;
+  height: 200vh;
   overflow: hidden;
   z-index: 0;  /* Make sure to set to 0 */
+  background-image: url('../../public/images/LongBackgroundspace.png');
 }
 
 .layer {
   position: absolute;
   width: 100%;
-  height: 100%;
+  height: 200vh;
   background-size: cover;
   background-position: center;
   transform: translateY(0px);  /* Initial state */
@@ -21,14 +22,24 @@
   position: absolute;
   z-index: 9;  /* Higher than any other layer */
   color: #fff;  /* Set to whatever color you want for the text */
-  /* Add more styles for layout and formatting */
+  width: 80%;   /* Set the width to 80% */
+  left: 10%;    /* Center the div */
+  Top: 10%;     /* Center the div vertically */
+  text-align: center; /* Center the text within the div */
+  transform: translateY(-50%); /* Vertically align the div */
 }
 
+
   
-  .layer1 {
-    background-image: url('../../public/images/Backgroundspace.png');
-    z-index: 1;
-  }
+/* .layer1 {
+  background-image: url('../../public/images/LongBackgroundspace.png');
+  
+} */
+
+.empty-space {
+  height: 300vh;  /* Adjust this value to control how much extra scrollable area you want */
+}
+
   
   .layer2 {
     background-image: url('../../public/images/Starburst.png');
