@@ -36,7 +36,7 @@ const Parallax = () => {
       <div className="layer layer8"></div>
       <div className="content">
         <h1>Hi My name is Tom </h1>
-        <img src=''></img>
+        <img src='../../public/images/Tom.jpg' alt="Tom"></img>
       </div>
       <div className="empty-space"></div>  {/* Here's the new empty space */}
     </div>
